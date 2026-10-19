@@ -1,0 +1,4 @@
+heldout: 200 projects, 449 planted defects, 200/800 discovery sentences NOT CHECKED (listed)
+
+  verifier  caught  449/449  false flags   0  missed: {}
+  uat30     caught  172/449  false flags   0  missed: {'REQ_UNMET': 74, 'TIER_GAP': 45, 'TIER_OVERLAP': 35, 'FIELD_BYPASS': 39, 'MAP_NULL_RISK': 81, 'MAP_TRUNCATION': 3}

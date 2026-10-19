@@ -1,0 +1,23 @@
+{
+ "split": "dev",
+ "projects": 80,
+ "planted": 174,
+ "sentences": 320,
+ "unparsed": 80,
+ "results": {
+  "verifier": {
+   "caught": 174,
+   "false": 0
+  },
+  "uat30": {
+   "caught": 53,
+   "false": 0,
+   "miss_REQ_UNMET": 39,
+   "miss_TIER_GAP": 20,
+   "miss_FIELD_BYPASS": 20,
+   "miss_MAP_NULL_RISK": 32,
+   "miss_TIER_OVERLAP": 10
+  }
+ },
+ "verifier_miss_examples": []
+}

@@ -1,0 +1,24 @@
+{
+ "split": "heldout",
+ "projects": 200,
+ "planted": 449,
+ "sentences": 800,
+ "unparsed": 200,
+ "results": {
+  "verifier": {
+   "caught": 449,
+   "false": 0
+  },
+  "uat30": {
+   "caught": 172,
+   "false": 0,
+   "miss_REQ_UNMET": 74,
+   "miss_TIER_GAP": 45,
+   "miss_TIER_OVERLAP": 35,
+   "miss_FIELD_BYPASS": 39,
+   "miss_MAP_NULL_RISK": 81,
+   "miss_MAP_TRUNCATION": 3
+  }
+ },
+ "verifier_miss_examples": []
+}

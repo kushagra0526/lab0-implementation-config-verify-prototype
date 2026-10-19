@@ -1,0 +1,31 @@
+REQUIREMENTS
+  R-100 FIELD_REQUIRED    <- "Every request needs a cost center."
+  R-101 APPROVER_REQUIRED <- "Requests of $10,000 and above need a finance approval."
+  R-102 APPROVER_REQUIRED <- "For UK requests over £25,000, add a finance director review before the ERP handoff."
+  NOT CHECKED       <- "Approval depends on amount and region."
+
+FINDINGS (current config)
+  FIELD_BYPASS    cost_center@import           required on form, api but not on import
+                  witness: {'path': 'import', 'cost_center': None, 'result': 'accepted'}
+  TIER_GAP        US                           no approval tier matches
+                  witness: {'region': 'US', 'amount_usd': 10000.0}
+  TIER_GAP        UK                           no approval tier matches
+                  witness: {'region': 'UK', 'amount_usd': 10000.0}
+  TIER_GAP        DE                           no approval tier matches
+                  witness: {'region': 'DE', 'amount_usd': 10000.0}
+  REQ_UNMET       R-101                        finance not before the ERP handoff
+                  witness: {'region': 'US', 'amount': 10000.0, 'currency': 'USD'}
+  REQ_UNMET       R-102                        finance_director not before the ERP handoff
+                  witness: {'region': 'UK', 'amount': 25000.01, 'currency': 'GBP'}
+  MAP_NULL_RISK   cost_center->Dimension.Code  ERP field required, source optional on import
+                  witness: {'path': 'import', 'cost_center': None, 'result': 'ERP handoff fails'}
+  MAP_TRUNCATION  legal_entity->Company.Code   source allows 40 chars, ERP 12
+                  witness: {'legal_entity': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}
+
+AFTER FIXES + CR-0248: 0 findings
+impact: 5 (region, amount) cells change approvers in ['DE', 'UK', 'US']; boundary tests:
+  US $10,000.00 -> expect ['finance', 'line_manager']
+  UK $10,000.00 -> expect ['finance', 'line_manager']
+  UK $31,750.01 -> expect ['finance', 'finance_director', 'line_manager']
+  UK $10,000,000.00 -> expect ['finance', 'finance_director', 'line_manager']
+  DE $10,000.00 -> expect ['finance', 'line_manager']
